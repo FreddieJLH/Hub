@@ -3,6 +3,10 @@
 # (Vault is used for LuckPerms/Pex and most permission apis)
 permission-core: Vault
 
+# Current Queue Systems
+# - Portal, Built-in
+queue-system: Portal
+
 # Accepted Types
 # - Push, Riding
 ender-butt-type: push
@@ -14,6 +18,29 @@ tablist:
 scoreboard:
   enabled: true
   title: '&b&lMC-Market'
+  lines:
+    - '&7&m-----------------------'
+    - '&4Online'
+    - '&f%onlineCount%'
+    - ''
+    - '&4Rank'
+    - '%coloredRank%'
+    - ''
+    - '&7&ostore.mc-market.org'
+    - '&7&m-----------------------'
 
 message:
   chat-format: '%prefix% %player%&7: &f%message%'
+
+selector:
+  title: 'Select a server'
+  size: 27 # must be a multiple of 9
+
+servers:
+  hcf:
+    slot: 14 # For Server Selector
+    display-name: '&4HCF' # For Server Selector
+    display-item: 'DIAMOND_SWORD' # For Server Selector
+    lore: # For Server Selector
+      - '&7Lore'
+      - '&eLore 2'

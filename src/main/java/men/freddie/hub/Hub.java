@@ -1,34 +1,76 @@
 package men.freddie.hub;
 
 import lombok.Getter;
+import men.freddie.hub.board.BoardProvider;
+import men.freddie.hub.listener.ChatListener;
+import men.freddie.hub.listener.ConnectionListeners;
+import men.freddie.hub.listener.PreventionListeners;
 import men.freddie.hub.permissions.IPermissionCore;
 import men.freddie.hub.permissions.type.AquaCorePermissionCore;
 import men.freddie.hub.permissions.type.StarkPermissionCore;
 import men.freddie.hub.permissions.type.VaultPermissionCore;
 import men.freddie.hub.permissions.type.ZootPermissionCore;
-import men.freddie.hub.tab.Tablist;
-import men.freddie.hub.tab.provider.TablistAdapter;
+import men.freddie.hub.queue.IQueueSystem;
+import men.freddie.hub.queue.type.PortalQueueSystem;
+import men.freddie.hub.selector.SelectorListeners;
+import men.freddie.hub.util.assemble.Assemble;
+import men.freddie.hub.util.assemble.AssembleStyle;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Arrays;
 
 public class Hub extends JavaPlugin {
 
-    @Getter private static Hub instance;
-    @Getter private IPermissionCore permissionCore;
+    @Getter
+    private static Hub instance;
+    @Getter
+    private IPermissionCore permissionCore;
+    @Getter
+    private IQueueSystem queueSystem;
 
     public void onEnable() {
         instance = this;
 
         saveDefaultConfig();
         setupPermissions();
+        setupQueueSystem();
+        registerListeners();
         setupBoards();
+
+        Bukkit.getWorlds().forEach(world -> world.getEntities().forEach(entity -> {
+            if (!(entity instanceof Player)) entity.remove();
+        }));
+    }
+
+    private void registerListeners() {
+        Listener[] listeners = {
+                new ChatListener(),
+                new SelectorListeners(),
+                new ConnectionListeners(),
+                new PreventionListeners(),
+        };
+        Arrays.asList(listeners).forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, this));
     }
 
     private void setupBoards() {
         // scoreboard
+        if (getConfig().getBoolean("scoreboard.enabled")) {
+            Assemble assemble = new Assemble(this, new BoardProvider());
+            assemble.setTicks(2);
+            assemble.setAssembleStyle(AssembleStyle.VIPER);
+        }
+    }
 
-        // tablist
-        if (this.getConfig().getBoolean("tablist.enabled")) {
-            new Tablist(Hub.getInstance(), new TablistAdapter());
+    private void setupQueueSystem() {
+        switch (getConfig().getString("queue-system", "Portal").toLowerCase()) {
+            case "Portal":
+                this.queueSystem = new PortalQueueSystem();
+                break;
+            default:
+                break;
         }
     }
 

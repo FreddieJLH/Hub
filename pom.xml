@@ -60,6 +60,15 @@
             <systemPath>${basedir}/lib/zoot-1.0-SNAPSHOT-shaded.jar</systemPath>
         </dependency>
 
+        <!-- QUEUE SYSTEMS -->
+        <dependency>
+            <groupId>portal</groupId>
+            <artifactId>portal</artifactId>
+            <version>latest</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/shared-1.0-SNAPSHOT.jar</systemPath>
+        </dependency>
+
         <!-- MISC DEPENDS -->
         <dependency>
             <groupId>org.projectlombok</groupId>
