@@ -17,6 +17,7 @@ import men.freddie.hub.util.BungeeUtil;
 import men.freddie.hub.util.assemble.Assemble;
 import men.freddie.hub.util.assemble.AssembleStyle;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -40,19 +41,19 @@ public class Hub extends JavaPlugin {
         this.bungeeUtil = new BungeeUtil();
         setupBoards();
 
-        Bukkit.getWorlds().forEach(world -> world.getEntities().forEach(entity -> {
-            if (!(entity instanceof Player)) entity.remove();
-        }));
+        Bukkit.getWorlds().stream()
+                .flatMap(world -> world.getEntities().stream())
+                .filter(entity -> !(entity instanceof Player))
+                .forEach(Entity::remove);
     }
 
     private void registerListeners() {
-        Listener[] listeners = {
+        Arrays.asList(
                 new ChatListener(),
                 new SelectorListeners(),
                 new ConnectionListeners(),
-                new PreventionListeners(),
-        };
-        Arrays.asList(listeners).forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, this));
+                new PreventionListeners()
+        ).forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, this));
     }
 
     private void setupBoards() {
