@@ -19,11 +19,28 @@ public class BoardProvider implements AssembleAdapter {
     public List<String> getLines(Player player) {
         List<String> lines = new ArrayList<>();
 
+        lines.add(Chat.translate(Hub.getInstance().getConfig().getString("scoreboard.bar")));
+
         Hub.getInstance().getConfig().getStringList("scoreboard.lines").forEach(line ->
                 lines.add(Chat.translate(line
-                    .replaceAll("%onlineCount%", String.valueOf(Hub.getInstance().getBungeeUtil().getServerCountMap().get("ALL")))
-                    .replaceAll("%coloredRank%", Hub.getInstance().getPermissionCore().getColoredRank(player))
-                    .replaceAll("%rank%", Hub.getInstance().getPermissionCore().getRank(player)))));
+                        .replaceAll("%onlineCount%", String.valueOf(Hub.getInstance().getBungeeUtil().getServerCountMap().get("ALL")))
+                        .replaceAll("%coloredRank%", Hub.getInstance().getPermissionCore().getColoredRank(player))
+                        .replaceAll("%rank%", Hub.getInstance().getPermissionCore().getRank(player)))));
+
+        if (Hub.getInstance().getQueueSystem().inQueue(player)) {
+            Hub.getInstance().getConfig().getStringList("scoreboard.queue-lines").forEach(line ->
+                    lines.add(line
+                            .replaceAll("%server%", Hub.getInstance().getQueueSystem().getQueue(player))
+                            .replaceAll("%position%", String.valueOf(Hub.getInstance().getQueueSystem().getPosition(player)))
+                            .replaceAll("%queueSize%", String.valueOf(Hub.getInstance().getQueueSystem().getQueueSize(Hub.getInstance().getQueueSystem().getQueue(player))))));
+        }
+
+        if (Hub.getInstance().getConfig().getBoolean("scoreboard.footer.enabled")) {
+            lines.add("");
+            lines.add(Chat.translate(Hub.getInstance().getConfig().getString("scoreboard.footer.link")));
+        }
+
+        lines.add(Chat.translate(Hub.getInstance().getConfig().getString("scoreboard.bar")));
 
         return lines;
     }

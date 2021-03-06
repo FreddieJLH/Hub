@@ -13,4 +13,24 @@ public class PortalQueueSystem implements IQueueSystem {
 
         player.performCommand("joinqueue " + queue); // couldn't find the add method lol
     }
+
+    @Override
+    public boolean inQueue(Player player) {
+        return Queue.getByPlayer(player.getUniqueId()) != null;
+    }
+
+    @Override
+    public String getQueue(Player player) {
+        return Queue.getByPlayer(player.getUniqueId()).getName();
+    }
+
+    @Override
+    public int getPosition(Player player) {
+        return Queue.getByPlayer(player.getUniqueId()).getPosition(player.getUniqueId());
+    }
+
+    @Override
+    public int getQueueSize(String queue) {
+        return Queue.getByName(queue).getPlayers().size();
+    }
 }

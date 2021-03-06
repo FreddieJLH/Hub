@@ -18,16 +18,19 @@ tablist:
 scoreboard:
   enabled: true
   title: '&b&lMC-Market'
+  bar: '&7&m-----------------------'
   lines:
-    - '&7&m-----------------------'
     - '&4Online'
     - '&f%onlineCount%'
     - ''
     - '&4Rank'
     - '%coloredRank%'
-    - ''
-    - '&7&ostore.mc-market.org'
-    - '&7&m-----------------------'
+  queue-lines:
+    - '&4&lQueue'
+    - '&f%server% &7(%position% / %queueSize%)'
+  footer:
+    enabled: true
+    link: '&7&ostore.mc-market.org'
 
 message:
   chat-format: '%prefix% %player%&7: &f%message%'
