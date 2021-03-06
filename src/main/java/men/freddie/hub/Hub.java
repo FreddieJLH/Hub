@@ -13,6 +13,7 @@ import men.freddie.hub.permissions.type.ZootPermissionCore;
 import men.freddie.hub.queue.IQueueSystem;
 import men.freddie.hub.queue.type.PortalQueueSystem;
 import men.freddie.hub.selector.SelectorListeners;
+import men.freddie.hub.util.BungeeUtil;
 import men.freddie.hub.util.assemble.Assemble;
 import men.freddie.hub.util.assemble.AssembleStyle;
 import org.bukkit.Bukkit;
@@ -24,12 +25,10 @@ import java.util.Arrays;
 
 public class Hub extends JavaPlugin {
 
-    @Getter
-    private static Hub instance;
-    @Getter
-    private IPermissionCore permissionCore;
-    @Getter
-    private IQueueSystem queueSystem;
+    @Getter private static Hub instance;
+    @Getter private IPermissionCore permissionCore;
+    @Getter private IQueueSystem queueSystem;
+    @Getter private BungeeUtil bungeeUtil;
 
     public void onEnable() {
         instance = this;
@@ -38,6 +37,7 @@ public class Hub extends JavaPlugin {
         setupPermissions();
         setupQueueSystem();
         registerListeners();
+        this.bungeeUtil = new BungeeUtil();
         setupBoards();
 
         Bukkit.getWorlds().forEach(world -> world.getEntities().forEach(entity -> {

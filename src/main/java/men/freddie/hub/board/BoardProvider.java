@@ -21,7 +21,7 @@ public class BoardProvider implements AssembleAdapter {
 
         Hub.getInstance().getConfig().getStringList("scoreboard.lines").forEach(line ->
                 lines.add(Chat.translate(line
-                    .replaceAll("%onlineCount%", String.valueOf(0))
+                    .replaceAll("%onlineCount%", String.valueOf(Hub.getInstance().getBungeeUtil().getServerCountMap().get("ALL")))
                     .replaceAll("%coloredRank%", Hub.getInstance().getPermissionCore().getColoredRank(player))
                     .replaceAll("%rank%", Hub.getInstance().getPermissionCore().getRank(player)))));
 
