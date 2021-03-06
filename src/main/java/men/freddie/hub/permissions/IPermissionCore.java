@@ -7,4 +7,5 @@ public interface IPermissionCore {
     String getColoredRank(Player player);
     String getRankPrefix(Player player);
     String getRank(Player player);
+    int getWeight(Player player);
 }

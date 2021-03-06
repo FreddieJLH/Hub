@@ -12,6 +12,8 @@ import men.freddie.hub.permissions.type.VaultPermissionCore;
 import men.freddie.hub.permissions.type.ZootPermissionCore;
 import men.freddie.hub.queue.IQueueSystem;
 import men.freddie.hub.queue.type.PortalQueueSystem;
+import men.freddie.hub.queue.type.custom.Queue;
+import men.freddie.hub.queue.type.custom.QueueManager;
 import men.freddie.hub.selector.SelectorListeners;
 import men.freddie.hub.util.BungeeUtil;
 import men.freddie.hub.util.assemble.Assemble;
@@ -30,6 +32,7 @@ public class Hub extends JavaPlugin {
     @Getter private IPermissionCore permissionCore;
     @Getter private IQueueSystem queueSystem;
     @Getter private BungeeUtil bungeeUtil;
+    @Getter private QueueManager queueManager;
 
     public void onEnable() {
         instance = this;
@@ -39,12 +42,17 @@ public class Hub extends JavaPlugin {
         setupQueueSystem();
         registerListeners();
         this.bungeeUtil = new BungeeUtil();
+        this.queueManager = new QueueManager();
         setupBoards();
 
         Bukkit.getWorlds().stream()
                 .flatMap(world -> world.getEntities().stream())
                 .filter(entity -> !(entity instanceof Player))
                 .forEach(Entity::remove);
+    }
+
+    public void onDisable() {
+        this.queueManager.getQueueThread().stop();
     }
 
     private void registerListeners() {

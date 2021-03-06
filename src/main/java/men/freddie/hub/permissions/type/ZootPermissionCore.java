@@ -21,4 +21,9 @@ public class ZootPermissionCore implements IPermissionCore {
     public String getRank(Player player) {
         return ChatColor.stripColor(ZootAPI.getRankOfPlayer(player).getDisplayName());
     }
+
+    @Override
+    public int getWeight(Player player) {
+        return ZootAPI.getRankOfPlayer(player).getWeight();
+    }
 }

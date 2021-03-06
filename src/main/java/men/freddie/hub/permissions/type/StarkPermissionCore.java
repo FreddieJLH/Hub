@@ -22,6 +22,11 @@ public class StarkPermissionCore implements IPermissionCore {
         return getProfile(player).getRank().getId();
     }
 
+    @Override
+    public int getWeight(Player player) {
+        return getProfile(player).getRank().getDisplayOrder();
+    }
+
     public BukkitProfile getProfile(Player player) {
         return Stark.getInstance().getCore().getProfileHandler().getByUUID(player.getUniqueId());
     }

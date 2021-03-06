@@ -44,4 +44,9 @@ public class VaultPermissionCore implements IPermissionCore {
     public String getRank(Player player) {
         return perms.getPrimaryGroup(player);
     }
+
+    @Override
+    public int getWeight(Player player) {
+        return 0; //idk the method
+    }
 }

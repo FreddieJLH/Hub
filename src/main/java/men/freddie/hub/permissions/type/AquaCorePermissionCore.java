@@ -20,4 +20,9 @@ public class AquaCorePermissionCore implements IPermissionCore {
     public String getRank(Player player) {
         return AquaCoreAPI.INSTANCE.getPlayerRank(player.getUniqueId()).getName();
     }
+
+    @Override
+    public int getWeight(Player player) {
+        return 0; //idk the method
+    }
 }

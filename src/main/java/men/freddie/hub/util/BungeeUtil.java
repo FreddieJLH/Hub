@@ -55,4 +55,11 @@ public class BungeeUtil implements PluginMessageListener {
             else serverCountMap.put(server, count);
          }
     }
+
+    public void sendToServer(Player player, String server) {
+        ByteArrayDataOutput dataOutput = ByteStreams.newDataOutput();
+        dataOutput.writeUTF("Connect");
+        dataOutput.writeUTF(server);
+        player.sendPluginMessage(Hub.getInstance(), "BungeeCord", dataOutput.toByteArray());
+    }
 }
