@@ -1,0 +1,19 @@
+# Current Permission Cores
+# - Stark, AquaCore, Zoot, Vault
+# (Vault is used for LuckPerms/Pex and most permission apis)
+permission-core: Vault
+
+# Accepted Types
+# - Push, Riding
+ender-butt-type: push
+
+tablist:
+  enabled: true
+  title: "&b&lMC-Market"
+
+scoreboard:
+  enabled: true
+  title: '&b&lMC-Market'
+
+message:
+  chat-format: '%prefix% %player%&7: &f%message%'
